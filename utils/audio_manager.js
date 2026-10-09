@@ -80,6 +80,28 @@ var AUDIO_MAP = {
 // 音频上下文池 - 每个音频文件预创建一个上下文
 var audioPool = {};
 
+// 关键：语音播报必须在系统静音模式下也能出声（失语者沟通依赖声音）。
+// 基础库 >= 2.3.0 实例属性 obeyMuteSwitch 已失效，需全局设置（仅 iOS 生效）
+if (wx.setInnerAudioOption) {
+  wx.setInnerAudioOption({ obeyMuteSwitch: false });
+}
+
+/**
+ * 统一创建音频上下文：不遵循静音开关 + 播放失败日志（真机调试排查用）
+ */
+function createAudio(path) {
+  var audio = wx.createInnerAudioContext();
+  audio.src = path;
+  // 兼容基础库 < 2.3.0 的旧写法
+  audio.obeyMuteSwitch = false;
+  if (audio.onError) {
+    audio.onError(function(err) {
+      console.error('音频播放失败:', path, err && err.errMsg);
+    });
+  }
+  return audio;
+}
+
 // 播放速率（0.5 ~ 2.0）
 var playbackRate = 1.0;
 
@@ -129,10 +151,7 @@ function preloadAudio() {
     for (var text in AUDIO_MAP[cat]) {
       var path = getAudioPath(text, cat);
       if (path && !audioPool[path]) {
-        // 预创建音频上下文并设置 src
-        var audio = wx.createInnerAudioContext();
-        audio.src = path;
-        audioPool[path] = audio;
+        audioPool[path] = createAudio(path);
         count++;
       }
     }
@@ -160,8 +179,7 @@ function playVoice(text, category, customSubdir) {
 
   // 如果还没预加载，临时创建一个
   if (!audio) {
-    audio = wx.createInnerAudioContext();
-    audio.src = audioPath;
+    audio = createAudio(audioPath);
     audioPool[audioPath] = audio;
   }
 

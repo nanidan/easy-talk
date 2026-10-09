@@ -26,8 +26,13 @@ global.wx = {
   },
   setStorageSync: function() {},
   createInnerAudioContext: function() {
-    return { src: '', playbackRate: 1, play: function() {}, stop: function() {} };
+    return {
+      src: '', playbackRate: 1, obeyMuteSwitch: true,
+      play: function() {}, stop: function() {},
+      onError: function() {}
+    };
   },
+  setInnerAudioOption: function() {},
   vibrateShort: function() {},
   showActionSheet: function() {},
   showModal: function() {},
