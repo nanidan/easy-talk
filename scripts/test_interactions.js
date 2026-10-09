@@ -53,7 +53,7 @@ pageInstance.onLoad();
 
 assert(pageInstance.data.currentLanguage === 'cantonese', '语言设置从 storage 恢复为粤语');
 assert(pageInstance.data.activeTab === 'daily', '默认落在日常 tab');
-assert(pageInstance.data.currentPhrases.length === 15, '日常场景 15 条短语（10 基础 + 5 护理）');
+assert(pageInstance.data.currentPhrases.length === 10, '日常场景 10 条短语');
 assert(pageInstance.data.currentPhrases[1].isFav === true, '"我想喝水"（第2条）显示已收藏角标');
 assert(pageInstance.data.currentPhrases[0].hasVoice === true, '日常短语有语音标记');
 assert(pageInstance.data.tabs[0].key === 'daily' && pageInstance.data.tabs[1].key === 'emergency',
@@ -88,7 +88,7 @@ assert(pageInstance.data.currentNoVoice === false, '有语音短语全屏正常'
 assert(played.length === 1 && played[0] === '我想喝水', '有语音短语正常触发播放');
 pageInstance.closeFullscreen();
 
-// ---- 医疗分类与护理短语 ----
+// ---- 全部预设短语语音覆盖 ----
 pageInstance.updateCurrentScene('medical');
 var medicalTexts = pageInstance.data.currentPhrases.map(function(p) { return p.text; });
 assert(medicalTexts.length === 10 && medicalTexts.every(function(t) { return t; }),
@@ -96,9 +96,8 @@ assert(medicalTexts.length === 10 && medicalTexts.every(function(t) { return t; 
 assert(pageInstance.data.currentPhrases.every(function(p) { return p.hasVoice === true; }),
   '医疗页全部短语有语音（无语音疼痛分级已删）');
 pageInstance.updateCurrentScene('daily');
-var dailyTexts = pageInstance.data.currentPhrases.map(function(p) { return p.text; });
-assert(dailyTexts.indexOf('帮我翻身') !== -1 && dailyTexts.indexOf('给我纸和笔') !== -1,
-  '卧床护理短语（翻身/纸笔）已加入日常');
+assert(pageInstance.data.currentPhrases.every(function(p) { return p.hasVoice === true; }),
+  '全部预设短语均有语音（无语音护理短语已删）');
 
 // ---- 最近使用区 ----
 appGlobalData.globalData.recentPhrases = ['我头疼', '我想喝水', '救命！我需要帮助'];
