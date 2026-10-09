@@ -1,0 +1,725 @@
+/* 呼吸感设计 - 轻松说 */
+
+page {
+  background: linear-gradient(180deg, #fafbff 0%, #f0f4ff 100%);
+  min-height: 100vh;
+}
+
+.page-root {
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========== Tab 切换 ========== */
+.tab-container {
+  flex: none;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1rpx solid rgba(102, 126, 234, 0.1);
+}
+
+.tab-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 12rpx 16rpx;
+  gap: 10rpx;
+}
+
+.tab-item {
+  width: calc(25% - 8rpx);
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10rpx 12rpx;
+  border-radius: 16rpx;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 2rpx 12rpx rgba(102, 126, 234, 0.08);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.tab-item.active {
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.15);
+}
+
+.tab-icon {
+  font-size: 48rpx;
+  margin-bottom: 4rpx;
+}
+
+.tab-text {
+  font-size: 30rpx;
+  color: #4a5568;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tab-item.active .tab-text {
+  color: #FFFFFF;
+}
+
+/* 求助 tab：任何状态下都保持紧急红色标识，保证一眼可达 */
+.tab-item.emergency-tab {
+  border: 3rpx solid #ff4757;
+  background: rgba(255, 71, 87, 0.06);
+}
+.tab-item.emergency-tab .tab-text {
+  color: #ff4757;
+  font-weight: 600;
+}
+.tab-item.emergency-tab.active {
+  border-color: transparent;
+}
+.tab-item.emergency-tab.active .tab-text {
+  color: #FFFFFF;
+}
+
+/* ========== 主内容区域 ========== */
+/* flex:1 + height:0 替代写死的 calc(100vh - 200rpx)，字号档位变化时不再错位 */
+.main-content {
+  flex: 1;
+  height: 0;
+  box-sizing: border-box;
+}
+
+/* padding 放在内层，避免部分机型 scroll-view 右侧内边距不生效导致右列贴边 */
+.main-content-body {
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+/* ========== 短语卡片网格 ========== */
+.phrase-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.phrase-card {
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20rpx;
+  padding: 20rpx 16rpx;
+  min-height: 120rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4rpx 16rpx rgba(102, 126, 234, 0.08),
+    0 2rpx 8rpx rgba(102, 126, 234, 0.04);
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.phrase-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.phrase-card:active::before {
+  opacity: 1;
+}
+
+.phrase-icon {
+  font-size: 48rpx;
+  margin-bottom: 10rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.phrase-text {
+  font-size: 30rpx;
+  color: #1a1a2e;
+  text-align: center;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+  font-weight: 500;
+}
+
+.phrase-card:active .phrase-text {
+  color: #FFFFFF;
+}
+
+/* 已收藏角标：让长按收藏的结果在卡片上可见 */
+.fav-badge {
+  position: absolute;
+  top: 8rpx;
+  right: 12rpx;
+  font-size: 26rpx;
+  z-index: 2;
+  line-height: 1;
+}
+
+/* 无语音角标：自定义短语点击后只有大字显示，需要提前告知 */
+.no-voice-tag {
+  position: relative;
+  z-index: 1;
+  margin-top: 8rpx;
+  font-size: 20rpx;
+  color: #a0aec0;
+}
+
+.phrase-card:active .no-voice-tag {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ========== 最近使用区（紧凑卡片） ========== */
+.recent-section {
+  margin-bottom: 24rpx;
+}
+
+.recent-title {
+  display: block;
+  font-size: 26rpx;
+  color: #718096;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.recent-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12rpx;
+}
+
+.recent-card {
+  min-height: 92rpx;
+  padding: 14rpx 12rpx;
+  border-radius: 16rpx;
+}
+
+.recent-card .phrase-icon {
+  font-size: 38rpx;
+  margin-bottom: 6rpx;
+}
+
+.recent-card .phrase-text {
+  font-size: 28rpx;
+}
+
+/* ========== 底部常驻：是/否应答栏 ========== */
+/* 失语沟通基石：对方问"疼吗/要喝水吗"，患者一指即答 */
+.answer-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  z-index: 1000;
+  padding: 16rpx 24rpx;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-top: 1rpx solid rgba(102, 126, 234, 0.12);
+}
+
+.answer-btn {
+  flex: 1;
+  height: 120rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease;
+}
+
+.answer-btn:active {
+  opacity: 0.8;
+}
+
+.answer-no {
+  margin-right: 20rpx;
+  background: #ff4757;
+}
+
+.answer-yes {
+  background: #2ed573;
+}
+
+.answer-btn-text {
+  color: #FFFFFF;
+  font-size: 44rpx;
+  font-weight: 700;
+  letter-spacing: 4rpx;
+}
+
+/* ========== 是/否超大字闪现 ========== */
+.answer-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10002;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.answer-flash.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* 白底深字：全应用最高对比，隔着床也能看清 */
+.answer-flash-text {
+  font-size: 200rpx;
+  font-weight: 700;
+  color: #1a1a2e;
+  background: #ffffff;
+  border-radius: 40rpx;
+  padding: 60rpx 120rpx;
+  box-shadow: 0 24rpx 80rpx rgba(26, 26, 46, 0.25);
+  line-height: 1.2;
+}
+
+
+/* ========== 大字显示模式 ========== */
+.fullscreen-display {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 60rpx;
+}
+
+.fullscreen-display.active {
+  display: flex;
+}
+
+.fullscreen-text {
+  font-size: 72rpx;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 1.4;
+  word-break: break-all;
+  text-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.2);
+  animation: textBreath 2s ease-in-out infinite;
+  margin-bottom: 80rpx;
+}
+
+@keyframes textBreath {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    transform: scale(1.02);
+    text-shadow: 0 8rpx 40rpx rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* 全屏控制按钮 */
+.fullscreen-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 60rpx;
+}
+
+.control-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 50rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+  margin: 0 20rpx;
+}
+
+.control-btn:first-child {
+  margin-left: 0;
+}
+
+.control-btn:last-child {
+  margin-right: 0;
+}
+
+.control-btn:active {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0.98);
+}
+
+.control-btn.active {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.control-btn.active .control-icon,
+.control-btn.active .control-text {
+  color: #667eea;
+}
+
+.control-icon {
+  font-size: 48rpx;
+  margin-bottom: 8rpx;
+}
+
+.control-text {
+  font-size: 26rpx;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.fullscreen-hint {
+  position: absolute;
+  bottom: 100rpx;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 无语音短语的全屏提示 */
+.fullscreen-novoice {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 8rpx;
+}
+.fullscreen-novoice-sub {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ========== 提示消息 ========== */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(26, 26, 46, 0.9);
+  color: #FFFFFF;
+  padding: 30rpx 50rpx;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  z-index: 10001;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+/* ========== 设置按钮（Tab 尾部） ========== */
+.settings-tab {
+  background: rgba(255, 255, 255, 0.4) !important;
+  border: 2rpx dashed rgba(102, 126, 234, 0.3);
+}
+
+/* ========== "我的"空状态 ========== */
+.empty-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 40rpx 30rpx;
+}
+.empty-hint-icon {
+  font-size: 72rpx;
+  margin-bottom: 20rpx;
+}
+.empty-hint-text {
+  font-size: 32rpx;
+  color: #4a5568;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+.empty-hint-sub {
+  font-size: 26rpx;
+  color: #718096;
+  line-height: 1.7;
+}
+
+/* ========== 设置面板 ========== */
+.settings-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 5000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.settings-mask.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.settings-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: 32rpx 32rpx 0 0;
+  padding: 0 40rpx 60rpx;
+  z-index: 5001;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.settings-panel.active {
+  transform: translateY(0);
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 36rpx 0 24rpx;
+  border-bottom: 1rpx solid #edf2f7;
+}
+.settings-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1a202c;
+}
+.settings-close {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #edf2f7;
+  font-size: 28rpx;
+  color: #718096;
+}
+
+.settings-section {
+  padding: 32rpx 0 0;
+}
+.settings-label {
+  font-size: 28rpx;
+  color: #4a5568;
+  font-weight: 500;
+  margin-bottom: 20rpx;
+  display: block;
+}
+.settings-options {
+  display: flex;
+  gap: 16rpx;
+}
+.settings-option {
+  flex: 1;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16rpx;
+  background: #f7fafc;
+  border: 2rpx solid #e2e8f0;
+  font-size: 28rpx;
+  color: #4a5568;
+  transition: all 0.2s ease;
+}
+.settings-option.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4rpx 16rpx rgba(102, 126, 234, 0.3);
+}
+.contrast-toggle {
+  flex: none;
+  width: 200rpx;
+}
+
+.settings-footer {
+  padding: 32rpx 0 0;
+  text-align: center;
+}
+.settings-footer-text {
+  font-size: 24rpx;
+  color: #a0aec0;
+}
+
+/* ========== 字号档位 ========== */
+
+/* 大字体 */
+.font-large .phrase-text {
+  font-size: 36rpx;
+}
+.font-large .phrase-icon {
+  font-size: 56rpx;
+}
+.font-large .tab-text {
+  font-size: 36rpx;
+}
+.font-large .tab-icon {
+  font-size: 56rpx;
+}
+.font-large .fullscreen-text {
+  font-size: 88rpx;
+}
+.font-large .answer-btn-text {
+  font-size: 50rpx;
+}
+.font-large .answer-flash-text {
+  font-size: 220rpx;
+}
+.font-large .settings-title,
+.font-large .settings-label,
+.font-large .settings-option {
+  font-size: 32rpx;
+}
+.font-large .empty-hint-text {
+  font-size: 36rpx;
+}
+.font-large .empty-hint-sub {
+  font-size: 30rpx;
+}
+
+/* 超大字体 */
+.font-xlarge .phrase-text {
+  font-size: 42rpx;
+}
+.font-xlarge .phrase-icon {
+  font-size: 64rpx;
+}
+.font-xlarge .phrase-card {
+  min-height: 160rpx;
+  padding: 28rpx 20rpx;
+}
+.font-xlarge .tab-text {
+  font-size: 42rpx;
+}
+.font-xlarge .tab-icon {
+  font-size: 64rpx;
+}
+.font-xlarge .tab-item {
+  padding: 8rpx 6rpx;
+  width: calc(25% - 8rpx);
+}
+.font-xlarge .fullscreen-text {
+  font-size: 100rpx;
+}
+.font-xlarge .answer-btn {
+  height: 136rpx;
+}
+.font-xlarge .answer-btn-text {
+  font-size: 58rpx;
+}
+.font-xlarge .answer-flash-text {
+  font-size: 240rpx;
+}
+.font-xlarge .settings-title,
+.font-xlarge .settings-label,
+.font-xlarge .settings-option {
+  font-size: 36rpx;
+}
+.font-xlarge .settings-option {
+  height: 108rpx;
+}
+.font-xlarge .empty-hint-text {
+  font-size: 40rpx;
+}
+.font-xlarge .empty-hint-sub {
+  font-size: 32rpx;
+}
+
+/* ========== 高对比度模式 ========== */
+.high-contrast .tab-container {
+  background: #1e1e3a;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+.high-contrast .tab-item {
+  background: rgba(255, 255, 255, 0.08);
+}
+.high-contrast .tab-text {
+  color: #e0e0e0;
+}
+.high-contrast .main-content {
+  background: #141428;
+}
+.high-contrast .phrase-card {
+  background: #2a2a4a;
+  border: 2rpx solid rgba(255, 255, 255, 0.12);
+}
+.high-contrast .phrase-text {
+  color: #ffffff;
+}
+.high-contrast .empty-hint-text {
+  color: #718096;
+}
+.high-contrast .settings-panel {
+  background: #1e1e3a;
+}
+.high-contrast .settings-title {
+  color: #ffffff;
+}
+.high-contrast .settings-close {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+}
+.high-contrast .settings-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+.high-contrast .settings-label {
+  color: #e0e0e0;
+}
+.high-contrast .settings-option {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e0e0e0;
+}
+.high-contrast .settings-tab {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.high-contrast .tab-item.emergency-tab {
+  border-color: #ff6b6b;
+  background: rgba(255, 71, 87, 0.18);
+}
+.high-contrast .tab-item.emergency-tab .tab-text {
+  color: #ff8a94;
+}
+.high-contrast .tab-item.emergency-tab.active .tab-text {
+  color: #ffffff;
+}
+.high-contrast .no-voice-tag {
+  color: #a0aec0;
+}
+.high-contrast .answer-bar {
+  background: #1e1e3a;
+  border-top-color: rgba(255, 255, 255, 0.15);
+}
+.high-contrast .recent-title {
+  color: #a0aec0;
+}

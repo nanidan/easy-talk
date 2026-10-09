@@ -1,0 +1,18 @@
+# 阿里云 TTS 语音生成工具依赖
+# 安装: pip install -r requirements.txt
+
+# 基础依赖（Python 标准库已包含，无需安装）
+# - hashlib
+# - hmac
+# - base64
+# - uuid
+# - urllib
+# - datetime
+# - json
+# - pathlib
+
+# 可选：如果需要更强大的 HTTP 请求功能
+# requests>=2.28.0
+
+# 可选：如果需要音频处理
+# pydub>=0.25.1

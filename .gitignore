@@ -1,0 +1,11 @@
+# 微信开发者工具本地私有配置（含个人环境信息，不进仓库）
+wechat-miniprogram/project.private.config.json
+
+# 工具产物
+.video_agent/
+.DS_Store
+__MACOSX/
+
+# 依赖与临时文件
+node_modules/
+*.log

@@ -1,0 +1,70 @@
+{
+  "daily": {
+    "我饿了，想吃饭": "/assets/audio/cantonese/daily_6fc93b8b.mp3",
+    "我想喝水": "/assets/audio/cantonese/daily_64006700.mp3",
+    "我想上厕所": "/assets/audio/cantonese/daily_62f28480.mp3",
+    "我困了，想睡觉": "/assets/audio/cantonese/daily_1310df87.mp3",
+    "我很冷": "/assets/audio/cantonese/daily_dc6512f3.mp3",
+    "我很热": "/assets/audio/cantonese/daily_2ba91d31.mp3",
+    "我很累": "/assets/audio/cantonese/daily_6cc8d307.mp3",
+    "请帮我一下": "/assets/audio/cantonese/daily_a47291f5.mp3",
+    "谢谢你的帮助": "/assets/audio/cantonese/daily_53ad8d89.mp3",
+    "我不需要，谢谢": "/assets/audio/cantonese/daily_92b8ee26.mp3"
+  },
+  "medical": {
+    "我不舒服": "/assets/audio/cantonese/medical_1fad4134.mp3",
+    "我头疼": "/assets/audio/cantonese/medical_6c56ab23.mp3",
+    "我肚子疼": "/assets/audio/cantonese/medical_71d58980.mp3",
+    "我胸口闷": "/assets/audio/cantonese/medical_b14ddd38.mp3",
+    "我呼吸困难": "/assets/audio/cantonese/medical_16fe9956.mp3",
+    "我头晕": "/assets/audio/cantonese/medical_6a5ad921.mp3",
+    "我想吐": "/assets/audio/cantonese/medical_7f33e2ee.mp3",
+    "请叫医生": "/assets/audio/cantonese/medical_f9477a4b.mp3",
+    "我需要吃药": "/assets/audio/cantonese/medical_69924a4a.mp3",
+    "请帮我叫救护车": "/assets/audio/cantonese/medical_5dd90ed4.mp3"
+  },
+  "travel": {
+    "请问怎么走": "/assets/audio/cantonese/travel_1112f555.mp3",
+    "我想去这个地方": "/assets/audio/cantonese/travel_f5b32c06.mp3",
+    "这是几路车": "/assets/audio/cantonese/travel_c476e1c5.mp3",
+    "我在哪站下车": "/assets/audio/cantonese/travel_99a12596.mp3",
+    "我迷路了": "/assets/audio/cantonese/travel_2d09cb03.mp3",
+    "请帮我报警": "/assets/audio/cantonese/travel_8ff0c645.mp3",
+    "请联系我的家人": "/assets/audio/cantonese/travel_470591af.mp3",
+    "我身体不舒服，请帮帮我": "/assets/audio/cantonese/travel_19d64b1e.mp3",
+    "请问厕所在哪": "/assets/audio/cantonese/travel_1dd2232b.mp3",
+    "我需要休息": "/assets/audio/cantonese/travel_0f0a1fd5.mp3"
+  },
+  "emotion": {
+    "我很开心": "/assets/audio/cantonese/emotion_1fc74d13.mp3",
+    "我很难过": "/assets/audio/cantonese/emotion_7292dafe.mp3",
+    "我很害怕": "/assets/audio/cantonese/emotion_188891b8.mp3",
+    "我很着急": "/assets/audio/cantonese/emotion_f776fce0.mp3",
+    "我感觉好多了": "/assets/audio/cantonese/emotion_7628d668.mp3",
+    "我想一个人静静": "/assets/audio/cantonese/emotion_3937c19d.mp3",
+    "我想和家人说话": "/assets/audio/cantonese/emotion_468b8a73.mp3",
+    "请稍等一下": "/assets/audio/cantonese/emotion_a888cd38.mp3",
+    "我想回家": "/assets/audio/cantonese/emotion_08d84ac3.mp3",
+    "我想休息": "/assets/audio/cantonese/emotion_6f4132b9.mp3"
+  },
+  "emergency": {
+    "我需要紧急帮助，请帮帮我": "/assets/audio/cantonese/emergency_d529de36.mp3",
+    "救命": "/assets/audio/cantonese/emergency_9fe1951b.mp3",
+    "请帮我": "/assets/audio/cantonese/emergency_cadd8a41.mp3",
+    "我不舒服，请帮我": "/assets/audio/cantonese/emergency_709c2fa1.mp3"
+  },
+  "shopping": {
+    "多少钱": "/assets/audio/cantonese/shopping_57af3610.mp3",
+    "有没有更大的": "/assets/audio/cantonese/shopping_8747ef5b.mp3",
+    "我要这个": "/assets/audio/cantonese/shopping_3dc01131.mp3",
+    "太贵了": "/assets/audio/cantonese/shopping_f48b8a61.mp3",
+    "我刷卡": "/assets/audio/cantonese/shopping_02b1d754.mp3",
+    "我扫码": "/assets/audio/cantonese/shopping_03394cb6.mp3",
+    "请开票": "/assets/audio/cantonese/shopping_7357d4c1.mp3",
+    "有优惠吗": "/assets/audio/cantonese/shopping_96a16142.mp3",
+    "请帮我包起来": "/assets/audio/cantonese/shopping_9c5354eb.mp3",
+    "我想退货": "/assets/audio/cantonese/shopping_3062580b.mp3",
+    "有袋子吗": "/assets/audio/cantonese/shopping_85388207.mp3",
+    "试衣间在哪": "/assets/audio/cantonese/shopping_94a1a15f.mp3"
+  }
+}

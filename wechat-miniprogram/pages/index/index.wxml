@@ -1,0 +1,188 @@
+<view class="page-root {{fontSizeClass}} {{highContrastClass}}">
+
+<!-- Tab 切换 -->
+<view class="tab-container">
+  <view class="tab-wrapper">
+    <view
+      class="tab-item {{activeTab === item.key ? 'active' : ''}} {{item.key === 'emergency' ? 'emergency-tab' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="key"
+      bindtap="switchTab"
+      data-tab="{{item.key}}"
+      style="{{activeTab === item.key ? 'background: ' + item.color + ';' : ''}}"
+    >
+      <text class="tab-icon">{{item.icon}}</text>
+      <text class="tab-text">{{item.name}}</text>
+    </view>
+    <!-- 设置按钮 -->
+    <view class="tab-item settings-tab" bindtap="showSettingsPanel">
+      <text class="tab-icon">⚙️</text>
+      <text class="tab-text">设置</text>
+    </view>
+  </view>
+</view>
+
+<!-- 主内容区域 -->
+<scroll-view class="main-content" scroll-y="true">
+  <view class="main-content-body">
+
+    <!-- 收藏空状态提示 -->
+    <view class="empty-hint" wx:if="{{activeTab === 'mine' && currentPhrases.length === 0}}">
+      <text class="empty-hint-icon">⭐</text>
+      <text class="empty-hint-text">还没有收藏的短语</text>
+      <text class="empty-hint-sub">在其他页面长按任意短语即可收藏到这里</text>
+    </view>
+
+    <!-- 最近使用：失语者表达高度重复，最近说的就是最常说的 -->
+    <view class="recent-section" wx:if="{{recentPhrases.length > 0}}">
+      <text class="recent-title">最近使用</text>
+      <view class="recent-grid">
+        <view
+          class="phrase-card recent-card"
+          wx:for="{{recentPhrases}}"
+          wx:key="text"
+          bindtap="onCardTap"
+          bindlongpress="onCardLongPress"
+          data-phrase="{{item.text}}"
+          data-custom="{{item.isCustom}}"
+        >
+          <text class="fav-badge" wx:if="{{item.isFav}}">⭐</text>
+          <text class="phrase-icon" wx:if="{{item.icon}}">{{item.icon}}</text>
+          <text class="phrase-text">{{item.text}}</text>
+          <text class="no-voice-tag" wx:if="{{!item.hasVoice}}">无语音·仅大字</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="phrase-grid">
+      <view
+        class="phrase-card"
+        wx:for="{{currentPhrases}}"
+        wx:key="text"
+        bindtap="onCardTap"
+        bindlongpress="onCardLongPress"
+        data-phrase="{{item.text}}"
+        data-custom="{{item.isCustom}}"
+        data-autoloop="{{item.autoLoop}}"
+      >
+        <text class="fav-badge" wx:if="{{item.isFav}}">⭐</text>
+        <text class="phrase-icon" wx:if="{{item.icon}}">{{item.icon}}</text>
+        <text class="phrase-text">{{item.text}}</text>
+        <text class="no-voice-tag" wx:if="{{!item.hasVoice}}">无语音·仅大字</text>
+      </view>
+    </view>
+    <view style="height: 340rpx;"></view>
+  </view>
+</scroll-view>
+
+<!-- 底部常驻：是/否应答（对方提问时一指即答，任何页面都可用） -->
+<view class="answer-bar">
+  <view class="answer-btn answer-no" bindtap="onAnswerTap" data-answer="不是">
+    <text class="answer-btn-text">不是</text>
+  </view>
+  <view class="answer-btn answer-yes" bindtap="onAnswerTap" data-answer="是">
+    <text class="answer-btn-text">是</text>
+  </view>
+</view>
+
+<!-- 是/否超大字闪现 -->
+<view class="answer-flash {{answerVisible ? 'show' : ''}}" bindtap="onAnswerFlashTap">
+  <text class="answer-flash-text">{{answerText}}</text>
+</view>
+
+<!-- 大字显示模式 -->
+<view class="fullscreen-display {{isFullscreen ? 'active' : ''}}" bindtap="onFullscreenTap">
+  <text class="fullscreen-text">{{currentPhrase}}</text>
+  <view class="fullscreen-controls" catchtap="onControlsTap">
+    <view class="control-btn {{isLooping ? 'active' : ''}}" catchtap="toggleLoop" wx:if="{{!currentNoVoice}}">
+      <text class="control-icon">{{isLooping ? '🔁' : '▶️'}}</text>
+      <text class="control-text">{{isLooping ? '循环中' : '循环播放'}}</text>
+    </view>
+    <view class="control-btn {{isCurrentFavorite ? 'active' : ''}}" catchtap="toggleCurrentFavorite">
+      <text class="control-icon">{{isCurrentFavorite ? '⭐' : '☆'}}</text>
+      <text class="control-text">{{isCurrentFavorite ? '已收藏' : '收藏'}}</text>
+    </view>
+  </view>
+  <text class="fullscreen-hint" wx:if="{{!currentNoVoice}}">{{isLooping ? '正在循环播放，点击空白处关闭' : '点击空白处关闭'}}</text>
+  <view class="fullscreen-hint" wx:else>
+    <text class="fullscreen-novoice">此短语暂无语音，仅文字显示</text>
+    <text class="fullscreen-novoice-sub">点击空白处关闭</text>
+  </view>
+</view>
+
+<!-- 设置面板遮罩 -->
+<view class="settings-mask {{showSettings ? 'active' : ''}}" bindtap="hideSettings"></view>
+
+<!-- 设置面板 -->
+<view class="settings-panel {{showSettings ? 'active' : ''}}">
+  <view class="settings-header">
+    <text class="settings-title">设置</text>
+    <view class="settings-close" bindtap="hideSettings">
+      <text>✕</text>
+    </view>
+  </view>
+
+  <!-- 字体大小 -->
+  <view class="settings-section">
+    <text class="settings-label">字体大小</text>
+    <view class="settings-options">
+      <view class="settings-option {{fontSize === 'normal' ? 'active' : ''}}" bindtap="setFontSize" data-size="normal">
+        <text>标准</text>
+      </view>
+      <view class="settings-option {{fontSize === 'large' ? 'active' : ''}}" bindtap="setFontSize" data-size="large">
+        <text>大</text>
+      </view>
+      <view class="settings-option {{fontSize === 'xlarge' ? 'active' : ''}}" bindtap="setFontSize" data-size="xlarge">
+        <text>超大</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 语速 -->
+  <view class="settings-section">
+    <text class="settings-label">语速</text>
+    <view class="settings-options">
+      <view class="settings-option {{speechRate === 0.7 ? 'active' : ''}}" bindtap="setSpeechRate" data-rate="0.7">
+        <text>慢</text>
+      </view>
+      <view class="settings-option {{speechRate === 1 ? 'active' : ''}}" bindtap="setSpeechRate" data-rate="1">
+        <text>正常</text>
+      </view>
+      <view class="settings-option {{speechRate === 1.3 ? 'active' : ''}}" bindtap="setSpeechRate" data-rate="1.3">
+        <text>快</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 播报语言 -->
+  <view class="settings-section">
+    <text class="settings-label">播报语言</text>
+    <view class="settings-options">
+      <view class="settings-option {{currentLanguage === 'base' ? 'active' : ''}}" bindtap="switchLanguage" data-lang="base">
+        <text>普通话</text>
+      </view>
+      <view class="settings-option {{currentLanguage === 'cantonese' ? 'active' : ''}}" bindtap="switchLanguage" data-lang="cantonese">
+        <text>粤语</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 高对比度 -->
+  <view class="settings-section">
+    <text class="settings-label">高对比度模式</text>
+    <view class="settings-options">
+      <view class="settings-option contrast-toggle {{highContrast ? 'active' : ''}}" bindtap="toggleHighContrast">
+        <text>{{highContrast ? '已开启' : '已关闭'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="settings-footer">
+    <text class="settings-footer-text">设置会自动保存</text>
+  </view>
+</view>
+
+<!-- 提示消息 -->
+<view class="toast {{toastVisible ? 'show' : ''}}">{{toastMessage}}</view>
+
+</view>
