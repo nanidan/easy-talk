@@ -1,7 +1,14 @@
 {
   "description": "项目配置文件",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      { "type": "folder", "value": "scripts" },
+      { "type": "file", "value": "README.md" },
+      { "type": "file", "value": "UI_REDIGN_REPORT.md" },
+      { "type": "folder", "value": "assets/icon" },
+      { "type": "regexp", "value": "audio_map.*\\.json" },
+      { "type": "file", "value": "assets/audio/README.md" }
+    ],
     "include": []
   },
   "setting": {
