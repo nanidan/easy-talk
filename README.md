@@ -10,6 +10,14 @@
 
 **当前版本**：v2.2 - 围绕失语场景的深度优化
 
+<div align="center">
+
+**📱 微信扫一扫，手机上直接使用线上版**
+
+<img src="assets/icon/miniprogram-code.png" alt="触音小程序码" width="220">
+
+</div>
+
 ---
 
 ## 🚀 下载后怎么用（写给家属，不需要编程基础）
