@@ -1,5 +1,5 @@
 # 微信开发者工具本地私有配置（含个人环境信息，不进仓库）
-wechat-miniprogram/project.private.config.json
+project.private.config.json
 
 # 工具产物
 .video_agent/

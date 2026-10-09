@@ -88,12 +88,13 @@ assert(pageInstance.data.currentNoVoice === false, '有语音短语全屏正常'
 assert(played.length === 1 && played[0] === '我想喝水', '有语音短语正常触发播放');
 pageInstance.closeFullscreen();
 
-// ---- 疼痛分级与护理短语 ----
+// ---- 医疗分类与护理短语 ----
 pageInstance.updateCurrentScene('medical');
 var medicalTexts = pageInstance.data.currentPhrases.map(function(p) { return p.text; });
-assert(medicalTexts.indexOf('疼得受不了') !== -1 && medicalTexts.indexOf('我有一点疼') === 0,
-  '疼痛四档分级存在且置顶');
-assert(pageInstance.data.currentPhrases[0].hasVoice === false, '疼痛分级标注无语音');
+assert(medicalTexts.length === 10 && medicalTexts.every(function(t) { return t; }),
+  '医疗页 10 条短语');
+assert(pageInstance.data.currentPhrases.every(function(p) { return p.hasVoice === true; }),
+  '医疗页全部短语有语音（无语音疼痛分级已删）');
 pageInstance.updateCurrentScene('daily');
 var dailyTexts = pageInstance.data.currentPhrases.map(function(p) { return p.text; });
 assert(dailyTexts.indexOf('帮我翻身') !== -1 && dailyTexts.indexOf('给我纸和笔') !== -1,

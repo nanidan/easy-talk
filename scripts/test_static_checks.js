@@ -64,8 +64,7 @@ for (var cat in AUDIO_MAP) {
 assert(missing.length === 0, '音频映射表所有条目在 base/cantonese 目录均有文件' + (missing.length ? '，缺失: ' + missing.join('; ') : ''));
 
 // ==== B. 场景短语语音覆盖（运行时真实数据）====
-var expectedNoVoice = ['帮我翻身', '我痒', '给我纸和笔', '帮我开灯', '帮我关灯',
-  '我有一点疼', '我比较疼', '我很疼', '疼得受不了'];
+var expectedNoVoice = ['帮我翻身', '我痒', '给我纸和笔', '帮我开灯', '帮我关灯'];
 var wrong = [];
 var tabKeys = ['daily', 'emergency', 'medical', 'shopping', 'travel', 'emotion'];
 for (var t = 0; t < tabKeys.length; t++) {
