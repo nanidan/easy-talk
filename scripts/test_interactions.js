@@ -5,7 +5,8 @@ var path = require('path');
 global.wx = {
   canIUse: function() { return true; },
   getStorageSync: function(key) {
-    if (key === 'favoritePhrases') return ['我想喝水', '救命！我需要帮助'];
+    if (key === 'favoritePhrases') return ['我想喝水', '救命！我需要帮助', '帮我关灯'];
+    if (key === 'recentPhrases') return ['帮我关灯', '我头疼'];
     if (key === 'customPhrases_v2') return ['我想吃苹果'];
     if (key === 'userSettings_v2') return { language: 'cantonese' };
     return [];
@@ -52,6 +53,10 @@ pageInstance.showToast = function() {};
 pageInstance.onLoad();
 
 assert(pageInstance.data.currentLanguage === 'cantonese', '语言设置从 storage 恢复为粤语');
+assert(appGlobalData.globalData.recentPhrases.indexOf('帮我关灯') === -1,
+  '启动清理：最近使用中的孤儿短语（帮我关灯）被移除');
+assert(appGlobalData.globalData.favoritePhrases.indexOf('帮我关灯') === -1,
+  '启动清理：收藏中的孤儿短语（帮我关灯）被移除');
 assert(pageInstance.data.activeTab === 'daily', '默认落在日常 tab');
 assert(pageInstance.data.currentPhrases.length === 10, '日常场景 10 条短语');
 assert(pageInstance.data.currentPhrases[1].isFav === true, '"我想喝水"（第2条）显示已收藏角标');

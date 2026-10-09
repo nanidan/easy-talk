@@ -137,6 +137,14 @@ Page({
   },
 
   onLoad: function() {
+    // 收集全部预设短语，清理缓存中已删除的孤儿（如曾点过的无语音短语）
+    var validTexts = [];
+    for (var sceneKey in SCENES) {
+      var sceneArr = SCENES[sceneKey];
+      for (var i = 0; i < sceneArr.length; i++) validTexts.push(sceneArr[i].text);
+    }
+    app.cleanupOrphans(validTexts);
+
     var settings = app.getSettings();
     this.applySettings(settings);
     // 恢复上次使用的语言

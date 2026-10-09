@@ -29,6 +29,27 @@ App({
     return recent
   },
 
+  // 清理孤儿数据：预设短语变更后，最近使用/收藏里可能残留已删除的短语（如无语音的护理短语）
+  cleanupOrphans(validTexts) {
+    var valid = {}
+    for (var i = 0; i < validTexts.length; i++) valid[validTexts[i]] = true
+    var custom = this.globalData.customPhrases || []
+    for (var j = 0; j < custom.length; j++) valid[custom[j]] = true
+
+    var recent = this.globalData.recentPhrases || []
+    var cleanRecent = recent.filter(function(t) { return valid[t] })
+    if (cleanRecent.length !== recent.length) {
+      this.globalData.recentPhrases = cleanRecent
+      wx.setStorageSync('recentPhrases', cleanRecent)
+    }
+    var favorites = this.globalData.favoritePhrases || []
+    var cleanFavs = favorites.filter(function(t) { return valid[t] })
+    if (cleanFavs.length !== favorites.length) {
+      this.globalData.favoritePhrases = cleanFavs
+      wx.setStorageSync('favoritePhrases', cleanFavs)
+    }
+  },
+
   addCustomPhrase(phrase) {
     if (!phrase) return this.globalData.customPhrases
     var custom = this.globalData.customPhrases || []
